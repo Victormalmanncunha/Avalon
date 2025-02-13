@@ -1,13 +1,15 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
-@theme{
-    --color-redDark: #E84855;
-    --color-backgroundLight: #ffffff;
-    --color-backgroundDark: #1a1a1a; 
-    --color-textLight: #333333; 
-    --color-textDark: #f0f0f0;
+@theme {
+    --color-primaryLight: #D23F57;
+    --color-primaryDark: #D23F57; /* Vermelho mais equilibrado e menos saturado */
+    --color-backgroundLight: #FDFDFD; /* Branco levemente suavizado */
+    --color-backgroundDark: #121212; /* Cinza quase preto, menos agressivo */
+    --color-textLight: #2C2C2C; /* Cinza escuro ao invés de preto puro */
+    --color-textDark: #E4E4E4; /* Cinza claro, menos intenso que branco puro */
 }
+
 
 
 

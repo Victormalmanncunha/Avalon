@@ -22,13 +22,13 @@ const Main = () => {
       )}
 
       <button
-        className="bg-redDark flex flex-col items-center justify-center w-[55%] h-[25%] rounded-4xl cursor-pointer"
+        className="bg-primaryLight dark:bg-primaryDark flex flex-col items-center justify-center w-[55%] h-[25%] rounded-4xl cursor-pointer"
         onClick={() => navigate("/characters")}
       >
         <UserRound size={100} />
         <p className="text-[1.2rem] font-bold">Personagens</p>
       </button>
-      <button className="bg-redDark flex flex-col items-center justify-center w-[55%] h-[25%] rounded-4xl cursor-pointer">
+      <button className=" bg-primaryLight dark:bg-primaryDark flex flex-col items-center justify-center w-[55%] h-[25%] rounded-4xl cursor-pointer">
         <Import size={100} />
         <p className="text-[1.2rem] font-bold">Importar</p>
       </button>
