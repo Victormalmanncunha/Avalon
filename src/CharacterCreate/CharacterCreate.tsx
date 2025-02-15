@@ -9,8 +9,13 @@ const CharacterCreate = () => {
 
   const createCharacter = () => {
     const character = new Character(name);
-    console.log(character.abilities.strength.modifier);
+    character.abilities.strength.score = 20;
     character.updateModifiers();
+    character.level = 17;
+    character.updateProficiencyBonus();
+    character.savingThrows.strength.proficient = true;
+    character.updateSavingThrows();
+    console.log(character.savingThrows.strength.bonus);
   };
 
   return (
