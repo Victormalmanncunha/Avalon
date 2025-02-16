@@ -13,15 +13,16 @@ const CharacterCreate = () => {
     character.updateModifiers();
     character.level = 17;
     character.updateProficiencyBonus();
-    character.savingThrows.strength.proficient = true;
-    character.updateSavingThrows();
-    console.log(character.savingThrows.strength.bonus);
+    character.skills.athletics.proficient = true;
+    character.skills.athletics.expertise = true;
+    character.updateSkills();
+    console.log(character.skills.athletics.bonus);
   };
 
   return (
     <div className="bg-backgroundLight dark:bg-backgroundDark w-screen h-screen flex justify-center items-center flex-col gap-10">
       <ArrowLeft
-        className="absolute left-0 top-0 text-textLight dark:text-textDark"
+        className="absolute left-0 top-0 text-textLight dark:text-textDark cursor-pointer"
         size={60}
         onClick={() => navigate(-1)}
       />

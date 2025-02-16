@@ -40,6 +40,7 @@ interface Skill {
 }
 
 interface Skills {
+  autoCalc: boolean;
   athletics: Skill;
   acrobatics: Skill;
   sleightOfHand: Skill;
@@ -63,17 +64,22 @@ interface Skills {
 export class Character {
   name: string;
   class: string;
+  race: string;
   health: Health;
+  armorClass: number;
   abilities: Abilities;
   level: number;
   proficiencyBonus: number;
   savingThrows: SavingThrows;
   skills: Skills;
+  initiative: number;
 
   constructor(name: string) {
     this.name = name;
     this.class = "";
+    this.race = "";
     this.health = { current: 10, max: 10 };
+    this.armorClass = 10;
     this.level = 1;
     this.abilities = {
       strength: { modifier: 0, score: 10, autoCalc: true },
@@ -93,6 +99,7 @@ export class Character {
       charisma: { bonus: 0, proficient: false },
     };
     this.skills = {
+      autoCalc: true,
       athletics: {
         bonus: 0,
         attribute: "strength",
@@ -202,6 +209,7 @@ export class Character {
         expertise: false,
       },
     };
+    this.initiative = 0;
   }
 
   updateModifiers() {
@@ -228,32 +236,38 @@ export class Character {
       }
     });
   }
-
-  updateSkillBonuses() {
+  updateSkills() {
     Object.keys(this.skills).forEach((key) => {
-      const skill = this.skills[key as keyof Skills];
-      let bonus = 0;
+      if (key === "autoCalc") return;
 
-      // Adiciona o modificador de atributo
-      bonus += this.getAttributeModifier(skill.attribute);
+      const skill = this.skills[key as keyof Omit<Skills, "autoCalc">];
+      const abilityModifier =
+        this.abilities[skill.attribute as keyof Abilities].modifier;
 
-      // Adiciona o bônus de proficiência, se aplicável
-      if (skill.proficient) {
-        bonus += this.proficiencyBonus;
+      if (this.skills.autoCalc) {
+        skill.bonus = abilityModifier;
+        if (skill.proficient) skill.bonus += this.proficiencyBonus;
+        if (skill.expertise) skill.bonus += this.proficiencyBonus;
       }
-
-      // Se o personagem tem expertise, dobra o bônus de proficiência
-      if (skill.expertise) {
-        bonus += this.proficiencyBonus;
-      }
-
-      skill.bonus = bonus; // Atualiza o bônus da habilidade
     });
   }
 
-  getAttributeModifier(attribute: keyof Abilities): number {
-    // Aqui você pega o modificador baseado no atributo
-    const abilities = this.abilities; // Supondo que você tenha as habilidades armazenadas
-    return abilities[attribute].modifier;
+  changeSkillAttribute(skill: string, attribute: string) {
+    const validAttributes = [
+      "strength",
+      "dexterity",
+      "intelligence",
+      "wisdom",
+      "charisma",
+      "constitution",
+    ];
+    const selectedSkill = this.skills[skill as keyof Omit<Skills, "autoCalc">];
+
+    if (selectedSkill && validAttributes.includes(attribute)) {
+      selectedSkill.attribute = attribute;
+      if (this.skills.autoCalc) {
+        this.updateSkills();
+      }
+    }
   }
 }

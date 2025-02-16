@@ -6,7 +6,7 @@ const Characters = () => {
   return (
     <div className="bg-backgroundLight dark:bg-backgroundDark w-screen h-screen flex flex-col items-center justify-between">
       <ArrowLeft
-        className="absolute left-0 top-0 text-textLight dark:text-textDark"
+        className="absolute left-0 top-0 text-textLight dark:text-textDark cursor-pointer"
         size={60}
         onClick={() => navigate(-1)}
       />
