@@ -3,20 +3,31 @@ import { ArrowLeft } from "lucide-react";
 import { useState } from "react";
 import { Character } from "../models/Character";
 
-const CharacterCreate = () => {
+const CharacterNew = () => {
   const navigate = useNavigate();
-  const [name, setName] = useState("");
+  const [characterName, setCharacterName] = useState("");
 
-  const createCharacter = () => {
-    const character = new Character(name);
-    character.abilities.strength.score = 20;
-    character.updateModifiers();
-    character.level = 17;
-    character.updateProficiencyBonus();
-    character.skills.athletics.proficient = true;
-    character.skills.athletics.expertise = true;
-    character.updateSkills();
-    console.log(character.skills.athletics.bonus);
+  const createCharacter = (): void => {
+    try {
+      console.log(new Character(characterName));
+      const storedCharacters: Character[] = JSON.parse(
+        localStorage.getItem("characters") || "[]"
+      );
+
+      if (storedCharacters.some(({ name }) => name === characterName)) {
+        console.warn(`O personagem "${characterName}" já existe.`);
+        return;
+      }
+
+      storedCharacters.push(new Character(characterName));
+      localStorage.setItem("characters", JSON.stringify(storedCharacters));
+      console.log(storedCharacters);
+
+      console.log(`Personagem "${characterName}" criado com sucesso!`);
+      navigate("/character/:name");
+    } catch (error) {
+      console.error("Erro ao manipular personagens no localStorage:", error);
+    }
   };
 
   return (
@@ -35,8 +46,8 @@ const CharacterCreate = () => {
       <input
         type="text"
         id="nome"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={characterName}
+        onChange={(e) => setCharacterName(e.target.value)}
         className="border-[3px] border-textLight dark:border-textDark text-2xl text-textLight dark:text-textDark rounded-2xl p-2"
       />
       <button
@@ -49,4 +60,4 @@ const CharacterCreate = () => {
   );
 };
 
-export default CharacterCreate;
+export default CharacterNew;

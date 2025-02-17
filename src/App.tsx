@@ -1,13 +1,15 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Main from "./Main/Main";
+import Home from "./Home/Home";
 import { ThemeProvider } from "./context/ThemeContext";
-import Characters from "./Characters/Characters";
-import CharacterCreate from "./CharacterCreate/CharacterCreate";
+import CharacterList from "./CharacterList/CharacterList";
+import CharacterNew from "./CharacterNew/CharacterNew";
+import CharacterView from "./CharacterView/CharacterView";
 
 const router = createBrowserRouter([
-  { path: "/", element: <Main /> },
-  { path: "/characters", element: <Characters /> },
-  { path: "/characters/create", element: <CharacterCreate /> },
+  { path: "/", element: <Home /> },
+  { path: "/characters/list", element: <CharacterList /> },
+  { path: "/characters/new", element: <CharacterNew /> },
+  { path: "/characters/:id", element: <CharacterView /> },
 ]);
 
 function App() {

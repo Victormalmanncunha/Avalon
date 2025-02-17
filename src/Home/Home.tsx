@@ -2,7 +2,7 @@ import { useTheme } from "../context/ThemeContext";
 import { Moon, Sun, UserRound, Import } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const Main = () => {
+const Home = () => {
   const { isDarkMode, toggleTheme } = useTheme();
   const navigate = useNavigate();
   return (
@@ -23,7 +23,7 @@ const Main = () => {
 
       <button
         className="bg-primaryLight dark:bg-primaryDark flex flex-col items-center justify-center w-[55%] h-[25%] rounded-4xl cursor-pointer"
-        onClick={() => navigate("/characters")}
+        onClick={() => navigate("/characters/list")}
       >
         <UserRound size={100} />
         <p className="text-[1.2rem] font-bold">Personagens</p>
@@ -36,4 +36,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default Home;
