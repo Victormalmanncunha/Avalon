@@ -9,7 +9,7 @@ const router = createBrowserRouter([
   { path: "/", element: <Home /> },
   { path: "/characters/list", element: <CharacterList /> },
   { path: "/characters/new", element: <CharacterNew /> },
-  { path: "/characters/:id", element: <CharacterView /> },
+  { path: "/characters/:name", element: <CharacterView /> },
 ]);
 
 function App() {

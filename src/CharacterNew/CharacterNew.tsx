@@ -9,7 +9,6 @@ const CharacterNew = () => {
 
   const createCharacter = (): void => {
     try {
-      console.log(new Character(characterName));
       const storedCharacters: Character[] = JSON.parse(
         localStorage.getItem("characters") || "[]"
       );
