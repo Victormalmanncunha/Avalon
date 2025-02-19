@@ -8,6 +8,7 @@ const CharacterNew = () => {
   const [characterName, setCharacterName] = useState("");
 
   const createCharacter = (): void => {
+    if(characterName.trim().length === 0) return
     try {
       const storedCharacters: Character[] = JSON.parse(
         localStorage.getItem("characters") || "[]"
@@ -23,7 +24,7 @@ const CharacterNew = () => {
       console.log(storedCharacters);
 
       console.log(`Personagem "${characterName}" criado com sucesso!`);
-      navigate("/character/:name");
+        navigate(`/characters/${characterName}`);
     } catch (error) {
       console.error("Erro ao manipular personagens no localStorage:", error);
     }

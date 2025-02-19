@@ -28,7 +28,7 @@ const CharacterView = () => {
   return (
     <div className="bg-backgroundLight dark:bg-backgroundDark w-screen h-screen flex flex-col items-center justify-between">
       <div className="flex-grow flex justify-center items-center w-full">
-        {chosenTab === "main" && character && <MainTab character={character} />}
+        {chosenTab === "main" && character && <MainTab character={character} setCharacter={setCharacter}/>}
       </div>
       <nav className="flex w-full">
         <button
