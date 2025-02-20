@@ -19,6 +19,7 @@ interface SavingThrow {
 }
 
 interface SavingThrows {
+  autoCalc: boolean;
   strength: SavingThrow;
   dexterity: SavingThrow;
   constitution: SavingThrow;
@@ -61,6 +62,11 @@ interface Skills {
   persuasion: Skill;
 }
 
+interface proficiencyBonus {
+  bonus: number;
+  autoCalc: boolean;
+}
+
 export class Character {
   name: string;
   class: string;
@@ -69,7 +75,7 @@ export class Character {
   armorClass: number;
   abilities: Abilities;
   level: number;
-  proficiencyBonus: number;
+  proficiencyBonus: proficiencyBonus;
   savingThrows: SavingThrows;
   skills: Skills;
   initiative: number;
@@ -89,8 +95,9 @@ export class Character {
       wisdom: { modifier: 0, score: 10, autoCalc: true },
       charisma: { modifier: 0, score: 10, autoCalc: true },
     };
-    this.proficiencyBonus = 2;
+    this.proficiencyBonus = { bonus: 2, autoCalc: true };
     this.savingThrows = {
+      autoCalc: true,
       strength: { bonus: 0, proficient: false },
       dexterity: { bonus: 0, proficient: false },
       constitution: { bonus: 0, proficient: false },
@@ -212,6 +219,14 @@ export class Character {
     this.initiative = 0;
   }
 
+  setLevel(level: number) {
+    this.level = level;
+
+    if (this.proficiencyBonus.autoCalc) {
+      this.updateProficiencyBonus();
+    }
+  }
+
   updateModifiers() {
     Object.keys(this.abilities).forEach((key) => {
       const ability = this.abilities[key as keyof Abilities];
@@ -222,17 +237,24 @@ export class Character {
   }
 
   updateProficiencyBonus() {
-    this.proficiencyBonus = 2 + Math.floor((this.level - 1) / 4);
+    this.proficiencyBonus.bonus = 2 + Math.floor((this.level - 1) / 4);
+    if (this.savingThrows.autoCalc) {
+      this.updateSavingThrows();
+    }
+    if (this.skills.autoCalc) {
+      this.updateSkills();
+    }
   }
 
   updateSavingThrows() {
     Object.keys(this.savingThrows).forEach((key) => {
       const abilityKey = key as keyof Abilities;
-      const savingThrow = this.savingThrows[key as keyof SavingThrows];
+      const savingThrow =
+        this.savingThrows[key as keyof Omit<SavingThrows, "autoCalc">];
       savingThrow.bonus = this.abilities[abilityKey].modifier;
 
       if (savingThrow.proficient) {
-        savingThrow.bonus += this.proficiencyBonus;
+        savingThrow.bonus += this.proficiencyBonus.bonus;
       }
     });
   }
@@ -246,8 +268,8 @@ export class Character {
 
       if (this.skills.autoCalc) {
         skill.bonus = abilityModifier;
-        if (skill.proficient) skill.bonus += this.proficiencyBonus;
-        if (skill.expertise) skill.bonus += this.proficiencyBonus;
+        if (skill.proficient) skill.bonus += this.proficiencyBonus.bonus;
+        if (skill.expertise) skill.bonus += this.proficiencyBonus.bonus;
       }
     });
   }
