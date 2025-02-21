@@ -1,4 +1,4 @@
-import { ArrowLeft, UserRoundPlus } from "lucide-react";
+import { ArrowLeft, Download, Trash, UserRoundPlus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Character } from "../models/Character";
@@ -15,6 +15,30 @@ const CharacterList = () => {
     setCharacters(storedCharacters);
   }, []);
 
+  const donwloadCharacter = (character: Character) => {
+    const jsonString = JSON.stringify(character, null, 2);
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = character.name;
+    a.click();
+
+    URL.revokeObjectURL(url);
+  };
+
+  const deleteCharacter = (characterName: string) => {
+    setCharacters((prevCharacters) => {
+      const updatedCharacters = prevCharacters.filter(
+        (character) => character.name !== characterName
+      );
+
+      localStorage.setItem("characters", JSON.stringify(updatedCharacters));
+      return updatedCharacters;
+    });
+  };
+
   return (
     <div className="bg-backgroundLight dark:bg-backgroundDark w-screen h-screen flex flex-col items-center justify-between">
       <ArrowLeft
@@ -30,10 +54,26 @@ const CharacterList = () => {
           {characters.map((value) => {
             return (
               <div
-                className="bg-primaryDark w-[80%] p-2 text-2xl rounded-2xl cursor-pointer"
+                className="bg-primaryDark w-[80%] p-3 text-2xl rounded-2xl cursor-pointer flex justify-between items-center"
                 onClick={() => navigate(`/characters/${value.name}`)}
               >
                 {value.name}
+                <div className="flex items-center gap-5">
+                  <Download
+                    size={30}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      donwloadCharacter(value);
+                    }}
+                  />
+                  <Trash
+                    size={30}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteCharacter(value.name);
+                    }}
+                  />
+                </div>
               </div>
             );
           })}

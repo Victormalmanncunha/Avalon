@@ -52,6 +52,15 @@ const MainTab: React.FC<MainTabProps> = ({
     setCharacter(changedCharacter);
   };
 
+  const changeProficienyBonus = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    character.proficiencyBonus.bonus = value;
+    const changedCharacter = Object.assign(new Character(character.name), {
+      ...character,
+    });
+    setCharacter(changedCharacter);
+  };
+
   const changeMaxHealth = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
     character.health.max = value;
@@ -125,9 +134,12 @@ const MainTab: React.FC<MainTabProps> = ({
           {editingMode ? (
             <input
               type="text"
-              className="w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark"
+              className="w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark disabled:bg-gray-100 disabled:dark:bg-gray-900"
               value={character.proficiencyBonus.bonus}
-              onChange={(e) => {}}
+              onChange={(e) => {
+                changeProficienyBonus(e);
+              }}
+              disabled={character.proficiencyBonus.autoCalc}
             />
           ) : (
             <p className="text-lg font-semibold text-textLight dark:text-textDark">
