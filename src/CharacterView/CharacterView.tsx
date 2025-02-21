@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Character } from "../models/Character";
 import MainTab from "../components/Tabs/MainTab";
 import { ArrowLeft, Check, Edit, Menu } from "lucide-react";
+import AttributeTab from "../components/Tabs/AttributeTab";
 
 const CharacterView = () => {
   const [character, setCharacter] = useState<Character | null>(null);
@@ -125,9 +126,9 @@ const CharacterView = () => {
         </button>
         <button
           className={`border-primaryDark text-textLight dark:text-textDark w-full h-10 ${
-            chosenTab === "Attributes" ? "bg-primaryDark" : ""
+            chosenTab === "attributes" ? "bg-primaryDark" : ""
           } cursor-pointer`}
-          onClick={() => setChosenTab("Attributes")}
+          onClick={() => setChosenTab("attributes")}
         >
           Atributos
         </button>
@@ -136,6 +137,13 @@ const CharacterView = () => {
       <div className="flex-grow flex justify-center items-center">
         {chosenTab === "main" && character && (
           <MainTab
+            character={character}
+            setCharacter={setCharacter}
+            editingMode={editingMode}
+          />
+        )}
+        {chosenTab === "attributes" && character && (
+          <AttributeTab
             character={character}
             setCharacter={setCharacter}
             editingMode={editingMode}
