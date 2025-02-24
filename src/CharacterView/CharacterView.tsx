@@ -55,9 +55,11 @@ const CharacterView = () => {
       localStorage.getItem("characters") || "[]"
     );
 
-    if (storedCharacters.some(({ name }) => name === character?.name)) {
-      console.warn(`Já existe um personagem com o mesmo nome.`);
-      return;
+    if (character?.name !== params.name) {
+      if (storedCharacters.some(({ name }) => name === character?.name)) {
+        console.warn(`Já existe um personagem com o mesmo nome.`);
+        return;
+      }
     }
 
     const updatedCharacters = storedCharacters.map((value) => {
@@ -68,8 +70,9 @@ const CharacterView = () => {
     });
 
     localStorage.setItem("characters", JSON.stringify(updatedCharacters));
-    if (params.name !== character?.name)
+    if (params.name !== character?.name) {
       navigate(`/characters/${character?.name}`);
+    }
     setEditingMode(false);
   };
 

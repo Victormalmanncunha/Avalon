@@ -50,7 +50,7 @@ const CharacterList = () => {
         <h1 className="text-4xl text-textLight dark:text-textDark mt-20">
           Personagens
         </h1>
-        <div className="flex flex-col w-full items-center mt-10 gap-5">
+        <div className="flex flex-col w-full items-center mt-10 gap-5 max-h-[60vh] overflow-y-auto">
           {characters.map((value) => {
             return (
               <div

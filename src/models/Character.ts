@@ -1,10 +1,10 @@
 interface Ability {
   modifier: number;
   score: number;
-  autoCalc: boolean;
 }
 
 interface Abilities {
+  autoCalc: boolean;
   strength: Ability;
   dexterity: Ability;
   constitution: Ability;
@@ -88,12 +88,13 @@ export class Character {
     this.armorClass = 10;
     this.level = 1;
     this.abilities = {
-      strength: { modifier: 0, score: 10, autoCalc: true },
-      dexterity: { modifier: 0, score: 10, autoCalc: true },
-      constitution: { modifier: 0, score: 10, autoCalc: true },
-      intelligence: { modifier: 0, score: 10, autoCalc: true },
-      wisdom: { modifier: 0, score: 10, autoCalc: true },
-      charisma: { modifier: 0, score: 10, autoCalc: true },
+      autoCalc: true,
+      strength: { modifier: 0, score: 10 },
+      dexterity: { modifier: 0, score: 10 },
+      constitution: { modifier: 0, score: 10 },
+      intelligence: { modifier: 0, score: 10 },
+      wisdom: { modifier: 0, score: 10 },
+      charisma: { modifier: 0, score: 10 },
     };
     this.proficiencyBonus = { bonus: 2, autoCalc: true };
     this.savingThrows = {
@@ -228,12 +229,15 @@ export class Character {
   }
 
   updateModifiers() {
-    Object.keys(this.abilities).forEach((key) => {
-      const ability = this.abilities[key as keyof Abilities];
-      if (ability.autoCalc) {
+    Object.keys(this.abilities)
+      .filter((key) => key !== "autoCalc")
+      .forEach((key) => {
+        const ability =
+          this.abilities[key as keyof Omit<Abilities, "autoCalc">];
+        console.log(ability);
+
         ability.modifier = Math.floor((ability.score - 10) / 2);
-      }
-    });
+      });
   }
 
   updateProficiencyBonus() {
@@ -247,31 +251,36 @@ export class Character {
   }
 
   updateSavingThrows() {
-    Object.keys(this.savingThrows).forEach((key) => {
-      const abilityKey = key as keyof Abilities;
-      const savingThrow =
-        this.savingThrows[key as keyof Omit<SavingThrows, "autoCalc">];
-      savingThrow.bonus = this.abilities[abilityKey].modifier;
+    Object.keys(this.savingThrows)
+      .filter((key) => key !== "autoCalc")
+      .forEach((key) => {
+        const savingThrowKey = key as keyof Omit<SavingThrows, "autoCalc">;
+        const savingThrow = this.savingThrows[savingThrowKey];
 
-      if (savingThrow.proficient) {
-        savingThrow.bonus += this.proficiencyBonus.bonus;
-      }
-    });
+        const abilityKey = savingThrowKey as keyof Omit<Abilities, "autoCalc">;
+        savingThrow.bonus = this.abilities[abilityKey].modifier;
+
+        if (savingThrow.proficient) {
+          savingThrow.bonus += this.proficiencyBonus.bonus;
+        }
+      });
   }
+
   updateSkills() {
-    Object.keys(this.skills).forEach((key) => {
-      if (key === "autoCalc") return;
+    Object.keys(this.skills)
+      .filter((key) => key !== "autoCalc")
+      .forEach((key) => {
+        const skill = this.skills[key as keyof Omit<Skills, "autoCalc">];
+        const abilityModifier =
+          this.abilities[skill.attribute as keyof Omit<Abilities, "autoCalc">]
+            .modifier;
 
-      const skill = this.skills[key as keyof Omit<Skills, "autoCalc">];
-      const abilityModifier =
-        this.abilities[skill.attribute as keyof Abilities].modifier;
-
-      if (this.skills.autoCalc) {
-        skill.bonus = abilityModifier;
-        if (skill.proficient) skill.bonus += this.proficiencyBonus.bonus;
-        if (skill.expertise) skill.bonus += this.proficiencyBonus.bonus;
-      }
-    });
+        if (this.skills.autoCalc) {
+          skill.bonus = abilityModifier;
+          if (skill.proficient) skill.bonus += this.proficiencyBonus.bonus;
+          if (skill.expertise) skill.bonus += this.proficiencyBonus.bonus;
+        }
+      });
   }
 
   changeSkillAttribute(skill: string, attribute: string) {
@@ -290,6 +299,14 @@ export class Character {
       if (this.skills.autoCalc) {
         this.updateSkills();
       }
+    }
+  }
+
+  setScore(attribute: string, score: number) {
+    this.abilities[attribute as keyof Omit<Abilities, "autoCalc">].score =
+      score;
+    if (this.abilities.autoCalc) {
+      this.updateModifiers();
     }
   }
 }
