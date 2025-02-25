@@ -82,12 +82,13 @@ const MainTab: React.FC<MainTabProps> = ({
           {editingMode ? (
             <input
               type="text"
-              className="w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark"
+              className="w-full max-w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark text-clip"
               value={character.name}
               onChange={(e) => changeName(e)}
+              title={character.name}
             />
           ) : (
-            <p className="text-lg font-semibold text-textLight dark:text-textDark">
+            <p className="text-lg font-semibold text-textLight dark:text-textDark truncate">
               {character.name}
             </p>
           )}
@@ -98,14 +99,14 @@ const MainTab: React.FC<MainTabProps> = ({
           {editingMode ? (
             <input
               type="text"
-              className="w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark"
+              className="w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark text-clip"
               value={character.class}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 handleChange(e, "class")
               }
             />
           ) : (
-            <p className="text-lg font-semibold text-textLight dark:text-textDark">
+            <p className="text-lg font-semibold text-textLight dark:text-textDark truncate">
               {character.class}
             </p>
           )}

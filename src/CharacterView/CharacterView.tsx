@@ -112,7 +112,7 @@ const CharacterView = () => {
       )}
       <nav
         ref={menuRef}
-        className={`flex h-full flex-col border-r-2 border-primaryDark justify-center transition-all duration-300 overflow-hidden ${
+        className={`flex h-full flex-col border-r-2 border-primaryDark justify-center transition-all duration-300 overflow-hidden shrink-0 ${
           !menuOpen ? "w-0 opacity-0" : "w-[30%] opacity-100"
         }`}
         style={{

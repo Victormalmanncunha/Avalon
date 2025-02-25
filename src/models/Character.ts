@@ -234,10 +234,15 @@ export class Character {
       .forEach((key) => {
         const ability =
           this.abilities[key as keyof Omit<Abilities, "autoCalc">];
-        console.log(ability);
 
         ability.modifier = Math.floor((ability.score - 10) / 2);
       });
+    if (this.savingThrows.autoCalc) {
+      this.updateSavingThrows();
+    }
+    if (this.skills.autoCalc) {
+      this.updateSkills();
+    }
   }
 
   updateProficiencyBonus() {
@@ -307,6 +312,17 @@ export class Character {
       score;
     if (this.abilities.autoCalc) {
       this.updateModifiers();
+    }
+  }
+
+  setModifier(attribute: string, modifier: number) {
+    this.abilities[attribute as keyof Omit<Abilities, "autoCalc">].modifier =
+      modifier;
+    if (this.savingThrows.autoCalc) {
+      this.updateSavingThrows();
+    }
+    if (this.skills.autoCalc) {
+      this.updateSkills();
     }
   }
 }
