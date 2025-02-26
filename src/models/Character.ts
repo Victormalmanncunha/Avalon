@@ -38,6 +38,7 @@ interface Skill {
   attribute: string;
   proficient: boolean;
   expertise: boolean;
+  portugueseName: string;
 }
 
 interface Skills {
@@ -113,108 +114,126 @@ export class Character {
         attribute: "strength",
         proficient: false,
         expertise: false,
+        portugueseName: "Atletismo",
       },
       acrobatics: {
         bonus: 0,
         attribute: "dexterity",
         proficient: false,
         expertise: false,
+        portugueseName: "Acrobacia",
       },
       sleightOfHand: {
         bonus: 0,
         attribute: "dexterity",
         proficient: false,
         expertise: false,
+        portugueseName: "Prestidigitação",
       },
       stealth: {
         bonus: 0,
         attribute: "dexterity",
         proficient: false,
         expertise: false,
+        portugueseName: "Furtividade",
       },
       arcana: {
         bonus: 0,
         attribute: "intelligence",
         proficient: false,
         expertise: false,
+        portugueseName: "Arcanismo",
       },
       history: {
         bonus: 0,
         attribute: "intelligence",
         proficient: false,
         expertise: false,
+        portugueseName: "História",
       },
       investigation: {
         bonus: 0,
         attribute: "intelligence",
         proficient: false,
         expertise: false,
+        portugueseName: "Investigação",
       },
       nature: {
         bonus: 0,
         attribute: "intelligence",
         proficient: false,
         expertise: false,
+        portugueseName: "Natureza",
       },
       religion: {
         bonus: 0,
         attribute: "intelligence",
         proficient: false,
         expertise: false,
+        portugueseName: "Religião",
       },
       animalHandling: {
         bonus: 0,
         attribute: "wisdom",
         proficient: false,
         expertise: false,
+        portugueseName: "Adestrar animais",
       },
       insight: {
         bonus: 0,
         attribute: "wisdom",
         proficient: false,
         expertise: false,
+        portugueseName: "Intuição",
       },
       medicine: {
         bonus: 0,
         attribute: "wisdom",
         proficient: false,
         expertise: false,
+        portugueseName: "Medicina",
       },
       perception: {
         bonus: 0,
         attribute: "wisdom",
         proficient: false,
         expertise: false,
+        portugueseName: "Percepção",
       },
       survival: {
         bonus: 0,
         attribute: "wisdom",
         proficient: false,
         expertise: false,
+        portugueseName: "Sobrevivência",
       },
       deception: {
         bonus: 0,
         attribute: "charisma",
         proficient: false,
         expertise: false,
+        portugueseName: "Enganação",
       },
       intimidation: {
         bonus: 0,
         attribute: "charisma",
         proficient: false,
         expertise: false,
+        portugueseName: "Intimidação",
       },
       performance: {
         bonus: 0,
         attribute: "charisma",
         proficient: false,
         expertise: false,
+        portugueseName: "Performance",
       },
       persuasion: {
         bonus: 0,
         attribute: "charisma",
         proficient: false,
         expertise: false,
+        portugueseName: "Persuasão",
       },
     };
     this.initiative = 0;

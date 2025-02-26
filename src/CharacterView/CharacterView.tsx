@@ -4,6 +4,7 @@ import { Character } from "../models/Character";
 import MainTab from "../components/Tabs/MainTab";
 import { ArrowLeft, Check, Edit, Menu } from "lucide-react";
 import AttributeTab from "../components/Tabs/AttributeTab";
+import SkillsTab from "../components/Tabs/SkillsTab";
 
 const CharacterView = () => {
   const [character, setCharacter] = useState<Character | null>(null);
@@ -51,6 +52,13 @@ const CharacterView = () => {
 
   const saveEdit = () => {
     console.log(character);
+    // const skillsArray = Object.entries(character.skills)
+    //   .filter(([key]) => key !== "autoCalc") // Remove o autoCalc
+    //   .map(([, value]) => value) // Pega apenas os valores dos objetos
+    //   .sort((a, b) => a.portugueseName.localeCompare(b.portugueseName)); // Ordena pelo nome em português
+
+    // console.log(skillsArray);
+
     const storedCharacters: Character[] = JSON.parse(
       localStorage.getItem("characters") || "[]"
     );
@@ -135,6 +143,14 @@ const CharacterView = () => {
         >
           Atributos
         </button>
+        <button
+          className={`border-primaryDark text-textLight dark:text-textDark w-full h-10 ${
+            chosenTab === "skills" ? "bg-primaryDark" : ""
+          } cursor-pointer`}
+          onClick={() => setChosenTab("skills")}
+        >
+          Perícias
+        </button>
       </nav>
 
       <div className="flex-grow flex justify-center items-center">
@@ -147,6 +163,13 @@ const CharacterView = () => {
         )}
         {chosenTab === "attributes" && character && (
           <AttributeTab
+            character={character}
+            setCharacter={setCharacter}
+            editingMode={editingMode}
+          />
+        )}
+        {chosenTab === "skills" && character && (
+          <SkillsTab
             character={character}
             setCharacter={setCharacter}
             editingMode={editingMode}
