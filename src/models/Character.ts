@@ -63,28 +63,38 @@ interface Skills {
   persuasion: Skill;
 }
 
-interface proficiencyBonus {
+interface ProficiencyBonus {
   bonus: number;
   autoCalc: boolean;
 }
 
+interface PassiveWisdom {
+  autoCalc: boolean;
+  modifier: number;
+}
+
 export class Character {
   name: string;
+  player: string;
   class: string;
   race: string;
+  movement: string;
   health: Health;
   armorClass: number;
   abilities: Abilities;
   level: number;
-  proficiencyBonus: proficiencyBonus;
+  proficiencyBonus: ProficiencyBonus;
   savingThrows: SavingThrows;
   skills: Skills;
+  passiveWisdom: PassiveWisdom;
   initiative: number;
 
   constructor(name: string) {
     this.name = name;
+    this.player = "";
     this.class = "";
     this.race = "";
+    this.movement = "30 pés/9M";
     this.health = { current: 10, max: 10 };
     this.armorClass = 10;
     this.level = 1;
@@ -236,6 +246,7 @@ export class Character {
         portugueseName: "Persuasão",
       },
     };
+    this.passiveWisdom = { autoCalc: true, modifier: 10 };
     this.initiative = 0;
   }
 
@@ -271,6 +282,9 @@ export class Character {
     }
     if (this.skills.autoCalc) {
       this.updateSkills();
+    }
+    if (this.passiveWisdom.autoCalc) {
+      this.updatePassiveWisdom();
     }
   }
 
@@ -332,9 +346,12 @@ export class Character {
     if (this.abilities.autoCalc) {
       this.updateModifiers();
     }
+    if (this.passiveWisdom.autoCalc) {
+      this.updatePassiveWisdom();
+    }
   }
 
-  setModifier(attribute: string, modifier: number) {
+  setAttributeModifier(attribute: string, modifier: number) {
     this.abilities[attribute as keyof Omit<Abilities, "autoCalc">].modifier =
       modifier;
     if (this.savingThrows.autoCalc) {
@@ -343,5 +360,57 @@ export class Character {
     if (this.skills.autoCalc) {
       this.updateSkills();
     }
+  }
+
+  setSavingThrowProficiency(attribute: string, proficient: boolean) {
+    this.savingThrows[
+      attribute as keyof Omit<SavingThrows, "autoCalc">
+    ].proficient = proficient;
+    if (this.savingThrows.autoCalc) {
+      this.updateSavingThrows();
+    }
+  }
+
+  setSavingThrowBonus(attribute: string, bonus: number) {
+    this.savingThrows[attribute as keyof Omit<SavingThrows, "autoCalc">].bonus =
+      bonus;
+  }
+
+  setSkillBonus(skill: string, bonus: number) {
+    this.skills[skill as keyof Omit<Skills, "autoCalc">].bonus = bonus;
+  }
+
+  setSkillProficiency(skill: string, proficient: boolean) {
+    if (
+      !proficient &&
+      this.skills[skill as keyof Omit<Skills, "autoCalc">].expertise
+    ) {
+      this.skills[skill as keyof Omit<Skills, "autoCalc">].expertise = false;
+    }
+    this.skills[skill as keyof Omit<Skills, "autoCalc">].proficient =
+      proficient;
+    if (this.skills.autoCalc) {
+      this.updateSkills();
+    }
+    if (this.passiveWisdom.autoCalc) {
+      this.updatePassiveWisdom();
+    }
+  }
+
+  setSkillExpertise(skill: string, expertise: boolean) {
+    this.skills[skill as keyof Omit<Skills, "autoCalc">].proficient = true;
+    this.skills[skill as keyof Omit<Skills, "autoCalc">].expertise = expertise;
+    if (this.skills.autoCalc) {
+      this.updateSkills();
+    }
+  }
+
+  updatePassiveWisdom() {
+    let basePassiveWisdom = 10;
+    basePassiveWisdom += this.abilities.wisdom.modifier;
+    if (this.skills.perception.proficient) {
+      basePassiveWisdom += this.proficiencyBonus.bonus;
+    }
+    this.passiveWisdom.modifier = basePassiveWisdom;
   }
 }

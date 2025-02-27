@@ -52,12 +52,12 @@ const CharacterView = () => {
 
   const saveEdit = () => {
     console.log(character);
-    // const skillsArray = Object.entries(character.skills)
-    //   .filter(([key]) => key !== "autoCalc") // Remove o autoCalc
-    //   .map(([, value]) => value) // Pega apenas os valores dos objetos
-    //   .sort((a, b) => a.portugueseName.localeCompare(b.portugueseName)); // Ordena pelo nome em português
+    const skillsArray = Object.entries(character.skills)
+      .filter(([key]) => key !== "autoCalc") // Remove o autoCalc
+      .map(([, value]) => value) // Pega apenas os valores dos objetos
+      .sort((a, b) => a.portugueseName.localeCompare(b.portugueseName)); // Ordena pelo nome em português
 
-    // console.log(skillsArray);
+    console.log(skillsArray);
 
     const storedCharacters: Character[] = JSON.parse(
       localStorage.getItem("characters") || "[]"

@@ -23,10 +23,17 @@ const AttributeTab: React.FC<MainTabProps> = ({
     setCharacter(changedCharacter);
   };
 
-  const changeAttribute = (
+  const changeAttributeModifier = (
     e: React.ChangeEvent<HTMLInputElement>,
     attribute: string
-  ) => {};
+  ) => {
+    const modifier = Number(e.target.value);
+    character.setAttributeModifier(attribute, modifier);
+    const changedCharacter = Object.assign(new Character(character.name), {
+      ...character,
+    });
+    setCharacter(changedCharacter);
+  };
 
   return (
     <div className="w-full h-full flex flex-col items-center gap-6 p-6">
@@ -46,7 +53,7 @@ const AttributeTab: React.FC<MainTabProps> = ({
                 type="text"
                 className="w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark disabled:bg-gray-100 disabled:dark:bg-gray-900"
                 value={character.abilities.strength.modifier}
-                onChange={(e) => changeAttribute(e, "strength")}
+                onChange={(e) => changeAttributeModifier(e, "strength")}
                 disabled={character.abilities.autoCalc}
               />
               <label className="text-sm font-semibold text-textLight dark:text-textDark text-center">
@@ -82,7 +89,7 @@ const AttributeTab: React.FC<MainTabProps> = ({
                 type="text"
                 className="w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark disabled:bg-gray-100 disabled:dark:bg-gray-900"
                 value={character.abilities.dexterity.modifier}
-                onChange={(e) => changeAttribute(e, "dexterity")}
+                onChange={(e) => changeAttributeModifier(e, "dexterity")}
                 disabled={character.abilities.autoCalc}
               />
               <label className="text-sm font-semibold text-textLight dark:text-textDark text-center">
@@ -118,7 +125,7 @@ const AttributeTab: React.FC<MainTabProps> = ({
                 type="text"
                 className="w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark disabled:bg-gray-100 disabled:dark:bg-gray-900"
                 value={character.abilities.constitution.modifier}
-                onChange={(e) => changeAttribute(e, "constitution")}
+                onChange={(e) => changeAttributeModifier(e, "constitution")}
                 disabled={character.abilities.autoCalc}
               />
               <label className="text-sm font-semibold text-textLight dark:text-textDark text-center">
@@ -154,7 +161,7 @@ const AttributeTab: React.FC<MainTabProps> = ({
                 type="text"
                 className="w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark disabled:bg-gray-100 disabled:dark:bg-gray-900"
                 value={character.abilities.intelligence.modifier}
-                onChange={(e) => changeAttribute(e, "intelligence")}
+                onChange={(e) => changeAttributeModifier(e, "intelligence")}
                 disabled={character.abilities.autoCalc}
               />
               <label className="text-sm font-semibold text-textLight dark:text-textDark text-center">
@@ -190,7 +197,7 @@ const AttributeTab: React.FC<MainTabProps> = ({
                 type="text"
                 className="w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark disabled:bg-gray-100 disabled:dark:bg-gray-900"
                 value={character.abilities.wisdom.modifier}
-                onChange={(e) => changeAttribute(e, "wisdom")}
+                onChange={(e) => changeAttributeModifier(e, "wisdom")}
                 disabled={character.abilities.autoCalc}
               />
               <label className="text-sm font-semibold text-textLight dark:text-textDark text-center">
@@ -226,7 +233,7 @@ const AttributeTab: React.FC<MainTabProps> = ({
                 type="text"
                 className="w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark disabled:bg-gray-100 disabled:dark:bg-gray-900"
                 value={character.abilities.charisma.modifier}
-                onChange={(e) => changeAttribute(e, "charisma")}
+                onChange={(e) => changeAttributeModifier(e, "charisma")}
                 disabled={character.abilities.autoCalc}
               />
               <label className="text-sm font-semibold text-textLight dark:text-textDark text-center">

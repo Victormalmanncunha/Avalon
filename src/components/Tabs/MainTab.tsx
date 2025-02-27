@@ -77,7 +77,9 @@ const MainTab: React.FC<MainTabProps> = ({
       </h2>
 
       <div className="grid grid-cols-2 gap-4 w-full max-w-md">
-        <div className={`p-4 border rounded-lg bg-gray-100 dark:bg-gray-800`}>
+        <div
+          className={`p-4 border rounded-lg bg-gray-100 dark:bg-gray-800 min-h-[80px]`}
+        >
           <p className="text-sm text-gray-500">Nome</p>
           {editingMode ? (
             <input
@@ -94,7 +96,29 @@ const MainTab: React.FC<MainTabProps> = ({
           )}
         </div>
 
-        <div className={`p-4 border rounded-lg bg-gray-100 dark:bg-gray-800`}>
+        <div
+          className={`p-4 border rounded-lg bg-gray-100 dark:bg-gray-800 min-h-[80px]`}
+        >
+          <p className="text-sm text-gray-500">Jogador</p>
+          {editingMode ? (
+            <input
+              type="text"
+              className="w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark text-clip"
+              value={character.player}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange(e, "player")
+              }
+            />
+          ) : (
+            <p className="text-lg font-semibold text-textLight dark:text-textDark truncate">
+              {character.player}
+            </p>
+          )}
+        </div>
+
+        <div
+          className={`p-4 border rounded-lg bg-gray-100 dark:bg-gray-800 min-h-[80px]`}
+        >
           <p className="text-sm text-gray-500">Classe</p>
           {editingMode ? (
             <input
@@ -112,7 +136,49 @@ const MainTab: React.FC<MainTabProps> = ({
           )}
         </div>
 
-        <div className={`p-4 border rounded-lg bg-gray-100 dark:bg-gray-800`}>
+        <div
+          className={`p-4 border rounded-lg bg-gray-100 dark:bg-gray-800 min-h-[80px]`}
+        >
+          <p className="text-sm text-gray-500">Raça</p>
+          {editingMode ? (
+            <input
+              type="text"
+              className="w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark text-clip"
+              value={character.race}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange(e, "race")
+              }
+            />
+          ) : (
+            <p className="text-lg font-semibold text-textLight dark:text-textDark truncate">
+              {character.race}
+            </p>
+          )}
+        </div>
+
+        <div
+          className={`p-4 border rounded-lg bg-gray-100 dark:bg-gray-800 min-h-[80px]`}
+        >
+          <p className="text-sm text-gray-500">Movimento</p>
+          {editingMode ? (
+            <input
+              type="text"
+              className="w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark text-clip"
+              value={character.movement}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                handleChange(e, "movement")
+              }
+            />
+          ) : (
+            <p className="text-lg font-semibold text-textLight dark:text-textDark truncate">
+              {character.movement}
+            </p>
+          )}
+        </div>
+
+        <div
+          className={`p-4 border rounded-lg bg-gray-100 dark:bg-gray-800 min-h-[80px]`}
+        >
           <p className="text-sm text-gray-500">Level</p>
           {editingMode ? (
             <input
@@ -130,7 +196,9 @@ const MainTab: React.FC<MainTabProps> = ({
           )}
         </div>
 
-        <div className={`p-4 border rounded-lg bg-gray-100 dark:bg-gray-800`}>
+        <div
+          className={`p-4 border rounded-lg bg-gray-100 dark:bg-gray-800 min-h-[80px]`}
+        >
           <p className="text-sm text-gray-500">Bônus de Proficiência</p>
           {editingMode ? (
             <input
@@ -149,7 +217,9 @@ const MainTab: React.FC<MainTabProps> = ({
           )}
         </div>
 
-        <div className={`p-4 border rounded-lg bg-gray-100 dark:bg-gray-800`}>
+        <div
+          className={`p-4 border rounded-lg bg-gray-100 dark:bg-gray-800 min-h-[80px]`}
+        >
           <p className="text-sm text-gray-500">Iniciativa</p>
           {editingMode ? (
             <input
@@ -167,7 +237,9 @@ const MainTab: React.FC<MainTabProps> = ({
           )}
         </div>
 
-        <div className={`p-4 border rounded-lg bg-gray-100 dark:bg-gray-800`}>
+        <div
+          className={`p-4 border rounded-lg bg-gray-100 dark:bg-gray-800 min-h-[80px]`}
+        >
           <p className="text-sm text-gray-500">Classe de armadura</p>
           {editingMode ? (
             <input
@@ -184,7 +256,8 @@ const MainTab: React.FC<MainTabProps> = ({
             </p>
           )}
         </div>
-        <div className="col-span-2 p-4 border rounded-lg bg-gray-100 dark:bg-gray-800">
+
+        <div className="p-4 border rounded-lg bg-gray-100 dark:bg-gray-800">
           <p className="text-sm text-gray-500">Vida</p>
           {editingMode ? (
             <div className="flex gap-2">
