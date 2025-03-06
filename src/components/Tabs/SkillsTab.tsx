@@ -92,6 +92,12 @@ const SkillsTab: React.FC<MainTabProps> = ({
     setCharacter(changedCharacter);
   };
 
+  const changePassiveWisdomModifier = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const modifier = Number(e.target.value);
+  };
+
   return (
     <div className="w-full max-h-screen flex flex-col items-center gap-6 p-6 overflow-y-auto">
       <h2 className="text-2xl font-bold text-textLight dark:text-textDark">
@@ -382,18 +388,19 @@ const SkillsTab: React.FC<MainTabProps> = ({
             );
           })}
         <div className="col-span-2 p-4 border rounded-lg bg-gray-100 dark:bg-gray-800">
-          <p className="text-sm text-gray-500">Sabedoria passiva</p>
+          <p className="text-sm text-gray-500 text-center">Sabedoria passiva</p>
           {editingMode ? (
             <input
               type="text"
-              className="w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark"
+              className="text-center w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark disabled:bg-gray-100 disabled:dark:bg-gray-900"
+              disabled={character.passiveWisdom.autoCalc}
               value={character.passiveWisdom.modifier}
               onChange={(e) => {
                 changePassiveWisdomModifier(e);
               }}
             />
           ) : (
-            <p className="text-lg font-semibold text-textLight dark:text-textDark">
+            <p className="text-2xl font-semibold text-textLight dark:text-textDark text-center">
               {character.passiveWisdom.modifier}
             </p>
           )}

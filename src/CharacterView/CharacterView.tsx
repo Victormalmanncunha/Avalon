@@ -5,6 +5,9 @@ import MainTab from "../components/Tabs/MainTab";
 import { ArrowLeft, Check, Edit, Menu } from "lucide-react";
 import AttributeTab from "../components/Tabs/AttributeTab";
 import SkillsTab from "../components/Tabs/SkillsTab";
+import InventoryTab from "../components/Tabs/InventoryTab";
+import NotesTab from "../components/Tabs/NotesTab";
+import SpellsTab from "../components/Tabs/SpellsTab";
 
 const CharacterView = () => {
   const [character, setCharacter] = useState<Character | null>(null);
@@ -151,6 +154,30 @@ const CharacterView = () => {
         >
           Perícias
         </button>
+        <button
+          className={`border-primaryDark text-textLight dark:text-textDark w-full h-10 ${
+            chosenTab === "inventory" ? "bg-primaryDark" : ""
+          } cursor-pointer`}
+          onClick={() => setChosenTab("inventory")}
+        >
+          Inventário
+        </button>
+        <button
+          className={`border-primaryDark text-textLight dark:text-textDark w-full h-10 ${
+            chosenTab === "notes" ? "bg-primaryDark" : ""
+          } cursor-pointer`}
+          onClick={() => setChosenTab("notes")}
+        >
+          Anotações
+        </button>
+        <button
+          className={`border-primaryDark text-textLight dark:text-textDark w-full h-10 ${
+            chosenTab === "spells" ? "bg-primaryDark" : ""
+          } cursor-pointer`}
+          onClick={() => setChosenTab("spells")}
+        >
+          Magias
+        </button>
       </nav>
 
       <div className="flex-grow flex justify-center items-center">
@@ -170,6 +197,27 @@ const CharacterView = () => {
         )}
         {chosenTab === "skills" && character && (
           <SkillsTab
+            character={character}
+            setCharacter={setCharacter}
+            editingMode={editingMode}
+          />
+        )}
+        {chosenTab === "inventory" && character && (
+          <InventoryTab
+            character={character}
+            setCharacter={setCharacter}
+            editingMode={editingMode}
+          />
+        )}
+        {chosenTab === "notes" && character && (
+          <NotesTab
+            character={character}
+            setCharacter={setCharacter}
+            editingMode={editingMode}
+          />
+        )}
+        {chosenTab === "spells" && character && (
+          <SpellsTab
             character={character}
             setCharacter={setCharacter}
             editingMode={editingMode}

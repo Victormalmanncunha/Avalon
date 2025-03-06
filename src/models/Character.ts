@@ -73,6 +73,25 @@ interface PassiveWisdom {
   modifier: number;
 }
 
+interface Spell {
+  spellSlotMax: number;
+  spellSlotUsed: number;
+  spells: string;
+}
+
+interface Spells {
+  cantrips: string;
+  level1: Spell;
+  level2: Spell;
+  level3: Spell;
+  level4: Spell;
+  level5: Spell;
+  level6: Spell;
+  level7: Spell;
+  level8: Spell;
+  level9: Spell;
+}
+
 export class Character {
   name: string;
   player: string;
@@ -88,6 +107,9 @@ export class Character {
   skills: Skills;
   passiveWisdom: PassiveWisdom;
   initiative: number;
+  inventory: string;
+  notes: string;
+  spells: Spells;
 
   constructor(name: string) {
     this.name = name;
@@ -248,6 +270,56 @@ export class Character {
     };
     this.passiveWisdom = { autoCalc: true, modifier: 10 };
     this.initiative = 0;
+    this.inventory = "";
+    this.notes = "";
+    this.spells = {
+      cantrips: "",
+      level1: {
+        spellSlotMax: 0,
+        spellSlotUsed: 0,
+        spells: "",
+      },
+      level2: {
+        spellSlotMax: 0,
+        spellSlotUsed: 0,
+        spells: "",
+      },
+      level3: {
+        spellSlotMax: 0,
+        spellSlotUsed: 0,
+        spells: "",
+      },
+      level4: {
+        spellSlotMax: 0,
+        spellSlotUsed: 0,
+        spells: "",
+      },
+      level5: {
+        spellSlotMax: 0,
+        spellSlotUsed: 0,
+        spells: "",
+      },
+      level6: {
+        spellSlotMax: 0,
+        spellSlotUsed: 0,
+        spells: "",
+      },
+      level7: {
+        spellSlotMax: 0,
+        spellSlotUsed: 0,
+        spells: "",
+      },
+      level8: {
+        spellSlotMax: 0,
+        spellSlotUsed: 0,
+        spells: "",
+      },
+      level9: {
+        spellSlotMax: 0,
+        spellSlotUsed: 0,
+        spells: "",
+      },
+    };
   }
 
   setLevel(level: number) {
@@ -403,6 +475,10 @@ export class Character {
     if (this.skills.autoCalc) {
       this.updateSkills();
     }
+  }
+
+  setPassiveWisdom(modifier: number) {
+    this.passiveWisdom.modifier = modifier;
   }
 
   updatePassiveWisdom() {
