@@ -30,94 +30,129 @@ const SpellsTab: React.FC<MainTabProps> = ({
   setCharacter,
   editingMode,
 }) => {
-  const changeSpell = (
-    e: React.ChangeEvent<HTMLTextAreaElement>,
-    level: keyof Spells,
-    field: "spells" | "spellSlotUsed" | "spellSlotMax"
+  const changeSpellSlotMax = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    spellLevel
   ) => {
-    const newCharacter = { ...character };
-    if (field === "spells") {
-      newCharacter.spells[level].spells = e.target.value;
-    } else {
-      newCharacter.spells[level][field] = parseInt(e.target.value);
-    }
-    setCharacter(newCharacter);
+    const maxSpellSlot = Number(e.target.value);
+    character.setMaxSpellSlot(maxSpellSlot, spellLevel);
+    const changedCharacter = Object.assign(new Character(character.name), {
+      ...character,
+    });
+    setCharacter(changedCharacter);
+  };
+
+  const changeSpellSlotUsed = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    spellLevel
+  ) => {
+    const usedSpellSlot = Number(e.target.value);
+    character.setUsedSpellSlot(usedSpellSlot, spellLevel);
+    const changedCharacter = Object.assign(new Character(character.name), {
+      ...character,
+    });
+    setCharacter(changedCharacter);
+  };
+
+  const changeSpellsStored = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+    spellLevel
+  ) => {
+    const spellsStored = e.target.value;
+    character.setSpellsStored(spellsStored, spellLevel);
+    const changedCharacter = Object.assign(new Character(character.name), {
+      ...character,
+    });
+    setCharacter(changedCharacter);
   };
 
   return (
-    <div className="w-full h-full flex flex-col items-center gap-6 p-6">
+    <div className="w-full max-h-screen flex flex-col items-center gap-6 p-6 overflow-y-auto">
       <h1 className="text-2xl font-bold text-textLight dark:text-textDark">
         Feitiços
       </h1>
-      <div className="w-full h-auto flex flex-wrap gap-6">
-        {["cantrips", 1, 2, 3, 4, 5, 6, 7, 8, 9].map((level) => {
-          const levelKey = typeof level === "string" ? level : `level${level}`;
-          const spellData = character.spells[levelKey as keyof Spells];
+      {["cantrips", 1, 2, 3, 4, 5, 6, 7, 8, 9].map((level) => {
+        const spellLevelKey =
+          level === "cantrips" ? "cantrips" : `level${level}`;
+        const spellData = character.spells[spellLevelKey as keyof Spells];
 
-          return (
-            <div key={level} className="w-full md:w-1/2 lg:w-1/3 p-4">
-              <div className="border rounded-lg p-4 bg-white dark:bg-gray-800 shadow-sm">
-                <h2 className="text-xl font-semibold text-textLight dark:text-textDark mb-2">
-                  {level === "cantrips" ? "Cantrips" : `Nível ${level}`}
-                </h2>
-                <div className="mb-4">
-                  <label
-                    htmlFor={`${levelKey}-slotMax`}
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                  >
-                    Slots Máximos
-                  </label>
-                  <input
-                    id={`${levelKey}-slotMax`}
-                    type="number"
-                    value={spellData.spellSlotMax}
-                    onChange={(e) =>
-                      changeSpell(e, levelKey as keyof Spells, "spellSlotMax")
-                    }
-                    className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
-                  />
-                </div>
+        return (
+          <div key={level} className="w-10/12">
+            <div className="border rounded-lg p-4 bg-white dark:bg-gray-800 shadow-sm min-h-40 max-h-100">
+              <h2 className="text-xl font-semibold text-textLight dark:text-textDark mb-2 text-center">
+                {level === "cantrips" ? "Truques" : `Nível ${level}`}
+              </h2>
+              {level !== "cantrips" &&
+                spellData &&
+                typeof spellData !== "string" && (
+                  <>
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 text-center">
+                        Slots Máximos
+                      </label>
+                      {editingMode ? (
+                        <input
+                          type="number"
+                          className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                          onChange={(e) => changeSpellSlotMax(e, spellLevelKey)}
+                          value={spellData.spellSlotMax}
+                        />
+                      ) : (
+                        <p className="text-gray-900 dark:text-white text-center">
+                          {spellData.spellSlotMax}
+                        </p>
+                      )}
+                    </div>
 
-                <div className="mb-4">
-                  <label
-                    htmlFor={`${levelKey}-slotUsed`}
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                  >
-                    Slots Usados
-                  </label>
-                  <input
-                    id={`${levelKey}-slotUsed`}
-                    type="number"
-                    value={spellData.spellSlotUsed}
-                    onChange={(e) =>
-                      changeSpell(e, levelKey as keyof Spells, "spellSlotUsed")
-                    }
-                    className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
-                  />
-                </div>
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 text-center">
+                        Slots Usados
+                      </label>
+                      {editingMode ? (
+                        <input
+                          type="number"
+                          className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                          onChange={(e) =>
+                            changeSpellSlotUsed(e, spellLevelKey)
+                          }
+                          value={spellData.spellSlotUsed}
+                        />
+                      ) : (
+                        <p className="text-gray-900 dark:text-white text-center">
+                          {spellData.spellSlotUsed}
+                        </p>
+                      )}
+                    </div>
+                  </>
+                )}
 
-                <div>
-                  <label
-                    htmlFor={`${levelKey}-spells`}
-                    className="block text-sm font-medium text-gray-700 dark:text-gray-300"
-                  >
-                    Magias
-                  </label>
+              <div className="w-full">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 text-center p-5">
+                  Magias
+                </label>
+                {editingMode ? (
                   <textarea
-                    id={`${levelKey}-spells`}
                     placeholder={`Escreva suas magias de nível ${level} aqui...`}
-                    value={spellData.spells}
-                    onChange={(e) =>
-                      changeSpell(e, levelKey as keyof Spells, "spells")
+                    className="w-full h-32 p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none shadow-sm overflow-auto"
+                    onChange={(e) => changeSpellsStored(e, spellLevelKey)}
+                    value={
+                      spellLevelKey === "cantrips"
+                        ? spellData
+                        : spellData.spells
                     }
-                    className="w-full h-32 p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none shadow-sm"
                   ></textarea>
-                </div>
+                ) : (
+                  <p className="text-gray-900 dark:text-white whitespace-break-spaces overflow-y-auto break-words w-full max-h-48">
+                    {spellLevelKey === "cantrips"
+                      ? spellData
+                      : spellData.spells}
+                  </p>
+                )}
               </div>
             </div>
-          );
-        })}
-      </div>
+          </div>
+        );
+      })}
     </div>
   );
 };

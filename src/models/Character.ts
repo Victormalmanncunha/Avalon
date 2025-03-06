@@ -489,4 +489,24 @@ export class Character {
     }
     this.passiveWisdom.modifier = basePassiveWisdom;
   }
+
+  setMaxSpellSlot(amount: number, spellLevel: keyof Spells) {
+    if (typeof this.spells[spellLevel] !== "string") {
+      this.spells[spellLevel].spellSlotMax = amount;
+    }
+  }
+
+  setUsedSpellSlot(amount: number, spellLevel: keyof Spells) {
+    if (typeof this.spells[spellLevel] !== "string") {
+      this.spells[spellLevel].spellSlotUsed = amount;
+    }
+  }
+  setSpellsStored(spellsStored: string, spellLevel: keyof Spells) {
+    const spellData = this.spells[spellLevel];
+    if (typeof spellData !== "string") {
+      spellData.spells = spellsStored;
+    } else {
+      this.spells.cantrips = spellsStored;
+    }
+  }
 }

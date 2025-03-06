@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Character } from "../models/Character";
 import MainTab from "../components/Tabs/MainTab";
-import { ArrowLeft, Check, Edit, Menu } from "lucide-react";
+import { ArrowLeft, Check, DoorOpen, Edit, Menu } from "lucide-react";
 import AttributeTab from "../components/Tabs/AttributeTab";
 import SkillsTab from "../components/Tabs/SkillsTab";
 import InventoryTab from "../components/Tabs/InventoryTab";
@@ -178,6 +178,13 @@ const CharacterView = () => {
         >
           Magias
         </button>
+        <DoorOpen
+          onClick={() => {
+            navigate("/characters/list");
+          }}
+          className="text-textLight dark:text-textDark w-full mt-2"
+          size={30}
+        ></DoorOpen>
       </nav>
 
       <div className="flex-grow flex justify-center items-center">
