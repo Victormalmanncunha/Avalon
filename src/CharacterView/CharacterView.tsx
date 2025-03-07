@@ -8,6 +8,15 @@ import SkillsTab from "../components/Tabs/SkillsTab";
 import InventoryTab from "../components/Tabs/InventoryTab";
 import NotesTab from "../components/Tabs/NotesTab";
 import SpellsTab from "../components/Tabs/SpellsTab";
+import ConfigTab from "../components/Tabs/ConfigTab";
+
+interface Skill {
+  bonus: number;
+  attribute: string;
+  proficient: boolean;
+  expertise: boolean;
+  portugueseName: string;
+}
 
 const CharacterView = () => {
   const [character, setCharacter] = useState<Character | null>(null);
@@ -54,10 +63,12 @@ const CharacterView = () => {
   }, [menuOpen]);
 
   const saveEdit = () => {
+    if (!character || !character.skills) return; // Garante que `character` e `skills` existem
+
     console.log(character);
     const skillsArray = Object.entries(character.skills)
       .filter(([key]) => key !== "autoCalc") // Remove o autoCalc
-      .map(([, value]) => value) // Pega apenas os valores dos objetos
+      .map(([, value]) => value as Skill) // Força o TypeScript a reconhecer como Skill
       .sort((a, b) => a.portugueseName.localeCompare(b.portugueseName)); // Ordena pelo nome em português
 
     console.log(skillsArray);
@@ -66,8 +77,8 @@ const CharacterView = () => {
       localStorage.getItem("characters") || "[]"
     );
 
-    if (character?.name !== params.name) {
-      if (storedCharacters.some(({ name }) => name === character?.name)) {
+    if (character.name !== params.name) {
+      if (storedCharacters.some(({ name }) => name === character.name)) {
         console.warn(`Já existe um personagem com o mesmo nome.`);
         return;
       }
@@ -81,8 +92,9 @@ const CharacterView = () => {
     });
 
     localStorage.setItem("characters", JSON.stringify(updatedCharacters));
-    if (params.name !== character?.name) {
-      navigate(`/characters/${character?.name}`);
+
+    if (params.name !== character.name) {
+      navigate(`/characters/${character.name}`);
     }
     setEditingMode(false);
   };
@@ -178,6 +190,14 @@ const CharacterView = () => {
         >
           Magias
         </button>
+        <button
+          className={`border-primaryDark text-textLight dark:text-textDark w-full h-10 ${
+            chosenTab === "config" ? "bg-primaryDark" : ""
+          } cursor-pointer`}
+          onClick={() => setChosenTab("config")}
+        >
+          Configuração
+        </button>
         <DoorOpen
           onClick={() => {
             navigate("/characters/list");
@@ -229,6 +249,9 @@ const CharacterView = () => {
             setCharacter={setCharacter}
             editingMode={editingMode}
           />
+        )}
+        {chosenTab === "config" && character && (
+          <ConfigTab character={character} setCharacter={setCharacter} />
         )}
       </div>
     </div>

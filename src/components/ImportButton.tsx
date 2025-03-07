@@ -1,23 +1,21 @@
-import { useState } from "react";
-import { Import } from "lucide-react"; // Se estiver usando a biblioteca 'react-icons'
+import { Import } from "lucide-react";
+import { Character } from "../models/Character";
 
-const ImportButton = () => {
-  const [loading, setLoading] = useState(false);
-
-  const handleFileUpload = (event) => {
-    const file = event.target.files[0];
+const ImportButton: React.FC = () => {
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (!file) return;
 
     const reader = new FileReader();
     reader.onload = () => {
       try {
-        const newCharacters = JSON.parse(reader.result);
+        const newCharacters: Character[] = JSON.parse(reader.result as string);
 
-        // Recupera os Characters salvos no localStorage
-        const storedCharacters =
-          JSON.parse(localStorage.getItem("characters")) || [];
+        const storedCharacters: Character[] = JSON.parse(
+          localStorage.getItem("characters") || "[]"
+        );
 
-        const updatedCharacters = [...storedCharacters];
+        const updatedCharacters: Character[] = [...storedCharacters];
         let changesMade = false;
 
         newCharacters.forEach((newCharacter) => {
@@ -49,6 +47,7 @@ const ImportButton = () => {
         }
       } catch (error) {
         alert("Erro ao processar o arquivo JSON.");
+        console.log(error);
       }
     };
 

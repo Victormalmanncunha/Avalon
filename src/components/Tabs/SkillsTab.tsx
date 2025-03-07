@@ -6,6 +6,14 @@ interface MainTabProps {
   editingMode: boolean;
 }
 
+interface Skill {
+  bonus: number;
+  attribute: string;
+  proficient: boolean;
+  expertise: boolean;
+  portugueseName: string;
+}
+
 const SkillsTab: React.FC<MainTabProps> = ({
   character,
   setCharacter,
@@ -81,7 +89,7 @@ const SkillsTab: React.FC<MainTabProps> = ({
   };
 
   const changeSkillAttribute = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLSelectElement>,
     skill: string
   ) => {
     const attribute = e.target.value;
@@ -96,6 +104,11 @@ const SkillsTab: React.FC<MainTabProps> = ({
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     const modifier = Number(e.target.value);
+    character.setPassiveWisdom(modifier);
+    const changedCharacter = Object.assign(new Character(character.name), {
+      ...character,
+    });
+    setCharacter(changedCharacter);
   };
 
   return (
@@ -312,12 +325,14 @@ const SkillsTab: React.FC<MainTabProps> = ({
       <div className="grid grid-cols-2 gap-4 w-full max-w-md">
         {Object.entries(character.skills)
           .filter(([key]) => key !== "autoCalc")
-          .sort(([keyA, valueA], [keyB, valueB]) => {
+          .sort(([, valueA], [, valueB]) => {
             return valueA.portugueseName.localeCompare(valueB.portugueseName);
           })
           .map(([key, value]) => {
             const attributeNameInPortuguese =
-              attributeMap[value.attribute] || value.attribute;
+              attributeMap[value.attribute as keyof typeof attributeMap] ||
+              value.attribute;
+            const skill = value as Skill;
 
             return (
               <div
@@ -332,7 +347,7 @@ const SkillsTab: React.FC<MainTabProps> = ({
                     <input
                       type="text"
                       className="w-full p-1 rounded bg-white dark:bg-gray-700 text-textLight dark:text-textDark disabled:bg-gray-100 disabled:dark:bg-gray-900"
-                      value={character.skills[key].bonus}
+                      value={skill.bonus}
                       onChange={(e) => changeSkillBonus(e, key)}
                       disabled={character.skills.autoCalc}
                     />
@@ -340,7 +355,7 @@ const SkillsTab: React.FC<MainTabProps> = ({
                     <label className="flex items-center justify-center gap-2 cursor-pointer">
                       <input
                         type="checkbox"
-                        checked={character.skills[key].proficient}
+                        checked={skill.proficient}
                         onChange={(e) => changeSkillProficiency(e, key)}
                         className="w-4 h-4 accent-blue-500 rounded"
                       />
@@ -352,7 +367,7 @@ const SkillsTab: React.FC<MainTabProps> = ({
                     <label className="flex items-center justify-center gap-2 cursor-pointer">
                       <input
                         type="checkbox"
-                        checked={character.skills[key].expertise}
+                        checked={skill.expertise}
                         onChange={(e) => changeSkillExpertise(e, key)}
                         className="w-4 h-4 accent-blue-500 rounded"
                       />
@@ -377,7 +392,7 @@ const SkillsTab: React.FC<MainTabProps> = ({
                 ) : (
                   <>
                     <p className="text-2xl font-semibold text-textLight dark:text-textDark text-center">
-                      {character.skills[key].bonus}
+                      {skill.bonus}
                     </p>
                     <p className="text-sm text-gray-500 text-center">
                       {attributeNameInPortuguese.substring(0, 3)}

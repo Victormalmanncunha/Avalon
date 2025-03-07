@@ -32,7 +32,7 @@ const SpellsTab: React.FC<MainTabProps> = ({
 }) => {
   const changeSpellSlotMax = (
     e: React.ChangeEvent<HTMLInputElement>,
-    spellLevel
+    spellLevel: keyof Spells
   ) => {
     const maxSpellSlot = Number(e.target.value);
     character.setMaxSpellSlot(maxSpellSlot, spellLevel);
@@ -44,7 +44,7 @@ const SpellsTab: React.FC<MainTabProps> = ({
 
   const changeSpellSlotUsed = (
     e: React.ChangeEvent<HTMLInputElement>,
-    spellLevel
+    spellLevel: keyof Spells
   ) => {
     const usedSpellSlot = Number(e.target.value);
     character.setUsedSpellSlot(usedSpellSlot, spellLevel);
@@ -56,7 +56,7 @@ const SpellsTab: React.FC<MainTabProps> = ({
 
   const changeSpellsStored = (
     e: React.ChangeEvent<HTMLTextAreaElement>,
-    spellLevel
+    spellLevel: keyof Spells
   ) => {
     const spellsStored = e.target.value;
     character.setSpellsStored(spellsStored, spellLevel);
@@ -94,7 +94,9 @@ const SpellsTab: React.FC<MainTabProps> = ({
                         <input
                           type="number"
                           className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
-                          onChange={(e) => changeSpellSlotMax(e, spellLevelKey)}
+                          onChange={(e) =>
+                            changeSpellSlotMax(e, spellLevelKey as keyof Spells)
+                          }
                           value={spellData.spellSlotMax}
                         />
                       ) : (
@@ -113,7 +115,10 @@ const SpellsTab: React.FC<MainTabProps> = ({
                           type="number"
                           className="w-full p-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
                           onChange={(e) =>
-                            changeSpellSlotUsed(e, spellLevelKey)
+                            changeSpellSlotUsed(
+                              e,
+                              spellLevelKey as keyof Spells
+                            )
                           }
                           value={spellData.spellSlotUsed}
                         />
@@ -134,16 +139,18 @@ const SpellsTab: React.FC<MainTabProps> = ({
                   <textarea
                     placeholder={`Escreva suas magias de nível ${level} aqui...`}
                     className="w-full h-32 p-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none shadow-sm overflow-auto"
-                    onChange={(e) => changeSpellsStored(e, spellLevelKey)}
+                    onChange={(e) =>
+                      changeSpellsStored(e, spellLevelKey as keyof Spells)
+                    }
                     value={
-                      spellLevelKey === "cantrips"
+                      typeof spellData === "string"
                         ? spellData
                         : spellData.spells
                     }
                   ></textarea>
                 ) : (
                   <p className="text-gray-900 dark:text-white whitespace-break-spaces overflow-y-auto break-words w-full max-h-48">
-                    {spellLevelKey === "cantrips"
+                    {typeof spellData === "string"
                       ? spellData
                       : spellData.spells}
                   </p>
