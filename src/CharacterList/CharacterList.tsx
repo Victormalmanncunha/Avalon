@@ -16,7 +16,8 @@ const CharacterList = () => {
   }, []);
 
   const donwloadCharacter = (character: Character) => {
-    const jsonString = JSON.stringify(character, null, 2);
+    const characterArray = [character];
+    const jsonString = JSON.stringify(characterArray, null, 2);
     const blob = new Blob([jsonString], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 
