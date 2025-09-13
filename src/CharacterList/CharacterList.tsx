@@ -69,7 +69,7 @@ const CharacterList = () => {
             return (
               <div
                 className="bg-primaryDark w-[80%] p-3 text-2xl rounded-2xl cursor-pointer flex justify-between items-center gap-5"
-                onClick={() => navigate(`/characters/${value.name}`)}
+                onClick={() => navigate(`/characters/${encodeURI(value.name)}`)}
               >
                 <p className="truncate">{value.name}</p>
                 <div className="flex items-center gap-5">

@@ -1,20 +1,22 @@
+@import url("https://fonts.googleapis.com/css2?family=Comic+Relief:wght@400;700&display=swap");
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --color-primaryLight: #D23F57;
-    --color-primaryDark: #D23F57; /* Vermelho mais equilibrado e menos saturado */
-    --color-backgroundLight: #FDFDFD; /* Branco levemente suavizado */
-    --color-backgroundDark: #121212; /* Cinza quase preto, menos agressivo */
-    --color-textLight: #2C2C2C; /* Cinza escuro ao invés de preto puro */
-    --color-textDark: #E4E4E4; /* Cinza claro, menos intenso que branco puro */
+  --color-primaryLight: #d23f57;
+  --color-primaryDark: #d23f57; /* Vermelho mais equilibrado e menos saturado */
+  --color-backgroundLight: #fdfdfd; /* Branco levemente suavizado */
+  --color-backgroundDark: #121212; /* Cinza quase preto, menos agressivo */
+  --color-textLight: #2c2c2c; /* Cinza escuro ao invés de preto puro */
+  --color-textDark: #e4e4e4; /* Cinza claro, menos intenso que branco puro */
 }
 
-
-
-
-
-html, body, #root{
-    width: 100vw;
-    height: 100vh;
+html,
+body,
+#root {
+  width: 100vw;
+  height: 100vh;
+  font-family: "Comic Relief", system-ui;
+  font-weight: 400;
+  font-style: normal;
 }

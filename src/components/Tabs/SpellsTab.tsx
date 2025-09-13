@@ -67,7 +67,7 @@ const SpellsTab: React.FC<MainTabProps> = ({
   };
 
   return (
-    <div className="w-full max-h-screen flex flex-col items-center gap-6 p-6 overflow-y-auto">
+    <div className="w-full max-h-screen flex flex-col items-center gap-10 p-6 overflow-y-auto">
       <h1 className="text-2xl font-bold text-textLight dark:text-textDark">
         Feitiços
       </h1>
@@ -78,7 +78,7 @@ const SpellsTab: React.FC<MainTabProps> = ({
 
         return (
           <div key={level} className="w-10/12">
-            <div className="border rounded-lg p-4 bg-white dark:bg-gray-800 shadow-sm min-h-40 max-h-100">
+            <div className="border rounded-lg p-4 bg-white dark:bg-gray-800 shadow-sm min-h-fit max-h-[600px]">
               <h2 className="text-xl font-semibold text-textLight dark:text-textDark mb-2 text-center">
                 {level === "cantrips" ? "Truques" : `Nível ${level}`}
               </h2>
@@ -131,7 +131,7 @@ const SpellsTab: React.FC<MainTabProps> = ({
                   </>
                 )}
 
-              <div className="w-full">
+              <div className="w-full ">
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 text-center p-5">
                   Magias
                 </label>
@@ -149,7 +149,7 @@ const SpellsTab: React.FC<MainTabProps> = ({
                     }
                   ></textarea>
                 ) : (
-                  <p className="text-gray-900 dark:text-white whitespace-break-spaces overflow-y-auto break-words w-full max-h-48">
+                  <p className="text-gray-900 dark:text-white whitespace-pre-wrap break-words w-full max-h-80 overflow-y-auto">
                     {typeof spellData === "string"
                       ? spellData
                       : spellData.spells}
