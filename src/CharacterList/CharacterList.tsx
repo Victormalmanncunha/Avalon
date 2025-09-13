@@ -30,14 +30,16 @@ const CharacterList = () => {
   };
 
   const deleteCharacter = (characterName: string) => {
-    setCharacters((prevCharacters) => {
-      const updatedCharacters = prevCharacters.filter(
-        (character) => character.name !== characterName
-      );
+    if (confirm(`Certeza que quer deletar ${characterName}?`)) {
+      setCharacters((prevCharacters) => {
+        const updatedCharacters = prevCharacters.filter(
+          (character) => character.name !== characterName
+        );
 
-      localStorage.setItem("characters", JSON.stringify(updatedCharacters));
-      return updatedCharacters;
-    });
+        localStorage.setItem("characters", JSON.stringify(updatedCharacters));
+        return updatedCharacters;
+      });
+    }
   };
 
   const downloadAllCharacters = () => {
