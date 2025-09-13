@@ -9,6 +9,7 @@ import InventoryTab from "../components/Tabs/InventoryTab";
 import NotesTab from "../components/Tabs/NotesTab";
 import SpellsTab from "../components/Tabs/SpellsTab";
 import ConfigTab from "../components/Tabs/ConfigTab";
+import PowersTab from "../components/Tabs/PowersTab";
 
 interface Skill {
   bonus: number;
@@ -176,6 +177,14 @@ const CharacterView = () => {
         </button>
         <button
           className={`border-primaryDark text-textLight dark:text-textDark w-full h-10 ${
+            chosenTab === "powers" ? "bg-primaryDark" : ""
+          } cursor-pointer`}
+          onClick={() => setChosenTab("powers")}
+        >
+          Habilidades
+        </button>
+        <button
+          className={`border-primaryDark text-textLight dark:text-textDark w-full h-10 ${
             chosenTab === "notes" ? "bg-primaryDark" : ""
           } cursor-pointer`}
           onClick={() => setChosenTab("notes")}
@@ -231,6 +240,13 @@ const CharacterView = () => {
         )}
         {chosenTab === "inventory" && character && (
           <InventoryTab
+            character={character}
+            setCharacter={setCharacter}
+            editingMode={editingMode}
+          />
+        )}
+        {chosenTab === "powers" && character && (
+          <PowersTab
             character={character}
             setCharacter={setCharacter}
             editingMode={editingMode}

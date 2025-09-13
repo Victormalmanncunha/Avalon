@@ -110,6 +110,7 @@ export class Character {
   inventory: string;
   notes: string;
   spells: Spells;
+  powers: string;
 
   constructor(name: string) {
     this.name = name;
@@ -120,6 +121,7 @@ export class Character {
     this.health = { current: 10, max: 10 };
     this.armorClass = 10;
     this.level = 1;
+    this.powers = "";
     this.abilities = {
       autoCalc: true,
       strength: { modifier: 0, score: 10 },
