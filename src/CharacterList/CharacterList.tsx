@@ -8,8 +8,14 @@ const CharacterList = () => {
   const [characters, setCharacters] = useState<Character[]>([]);
 
   useEffect(() => {
+    alert(
+      'NÃO SE ESQUECA DE BAIXAR TODOS SEUS PERSONAGENS PERIODICAMENTE COM O BOTÃO "Baixar personagens"\nAs fichas são apagadas quando o cache é deletado.',
+    );
+  }, []);
+
+  useEffect(() => {
     const storedCharacters: Character[] = JSON.parse(
-      localStorage.getItem("characters") || "[]"
+      localStorage.getItem("characters") || "[]",
     );
 
     setCharacters(storedCharacters);
@@ -33,7 +39,7 @@ const CharacterList = () => {
     if (confirm(`Certeza que quer deletar ${characterName}?`)) {
       setCharacters((prevCharacters) => {
         const updatedCharacters = prevCharacters.filter(
-          (character) => character.name !== characterName
+          (character) => character.name !== characterName,
         );
 
         localStorage.setItem("characters", JSON.stringify(updatedCharacters));
